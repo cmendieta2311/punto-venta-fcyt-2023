@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.fcyt.modelo.tabla;
 
 import java.util.List;
@@ -11,6 +7,8 @@ import org.fcyt.modelo.Empresa;
 /**
  *
  * @author cmendieta
+ * AbstractTableModel es una clase en Java que forma parte del paquete javax.swing.table y se utiliza para proporcionar una implementación abstracta de la interfaz TableModel. 
+ * La interfaz TableModel se utiliza para definir el modelo de datos para tablas en aplicaciones Java Swing, como las que se encuentran en aplicaciones de escritorio.
  */
 public class EmpresaTablaModel extends AbstractTableModel{
     List<Empresa> lista;
