@@ -10,24 +10,24 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import org.fcyt.modelo.Empresa;
-import org.fcyt.modelo.dao.EmpresaDaoImpl;
-import org.fcyt.modelo.tabla.EmpresaTablaModel;
-import org.fcyt.vista.GUIEmpresa;
+import org.fcyt.modelo.Marca;
+import org.fcyt.modelo.dao.MarcaDaoImpl;
+import org.fcyt.modelo.tabla.MarcaTablaModel;
+import org.fcyt.vista.GUIMarca;
 
 /**
  *
  * @author cmendieta
  */
-public class EmpresaController implements ActionListener {
+public class MarcaController implements ActionListener {
 
-    private GUIEmpresa gui;
-    private EmpresaDaoImpl abm;
+    private GUIMarca gui;
+    private MarcaDaoImpl abm;
     private char operacion;
 
-    EmpresaTablaModel modelo = new EmpresaTablaModel();
+    MarcaTablaModel modelo = new MarcaTablaModel();
 
-    public EmpresaController(GUIEmpresa gui, EmpresaDaoImpl abm) {
+    public MarcaController(GUIMarca gui, MarcaDaoImpl abm) {
         this.gui = gui;
         this.abm = abm;
 
@@ -43,9 +43,9 @@ public class EmpresaController implements ActionListener {
             public void mouseClicked(MouseEvent evt) {
                 JTable tabla = (JTable) evt.getSource();
                 int row = tabla.rowAtPoint(evt.getPoint());
-                EmpresaTablaModel model = (EmpresaTablaModel) tabla.getModel();
+                MarcaTablaModel model = (MarcaTablaModel) tabla.getModel();
 
-                setEmpresaForm(model.getEntityByRow(row));
+                setMarcaForm(model.getEntityByRow(row));
 
             }
         });
@@ -60,7 +60,6 @@ public class EmpresaController implements ActionListener {
             operacion = 'N';
             System.out.println("Soy el boton nuevo");
             habilitarCampos(true);
-            gui.txt_ruc.requestFocus();
             limpiar();
         }
 
@@ -92,10 +91,10 @@ public class EmpresaController implements ActionListener {
             }
             switch (operacion) {
                 case 'N':
-                    abm.insertar(getEmpresaForm());
+                    abm.insertar(getMarcaForm());
                     break;
                 case 'E':
-                    abm.actualizar(getEmpresaForm());
+                    abm.actualizar(getMarcaForm());
                     break;
             }
             
@@ -113,39 +112,31 @@ public class EmpresaController implements ActionListener {
     // Funcion encargado de mostrar la ventana
     public void mostrarVentana() {
         gui.setLocationRelativeTo(gui);
+        gui.setTitle("Marca");
         gui.setVisible(true);
     }
 
-    //Funcion encargado de recuperar los valos de los textfield en un objeto tipo empresa
-    private Empresa getEmpresaForm() {
-        Empresa empresa = new Empresa();
-        empresa.setId(Integer.valueOf(gui.txt_id.getText()));
-        empresa.setRuc(gui.txt_ruc.getText());
-        empresa.setNombre(gui.txt_nombre.getText());
-        empresa.setDireccion(gui.txt_direccion.getText());
-        empresa.setTelefono(gui.txt_telefono.getText());
+    //Funcion encargado de recuperar los valos de los textfield en un objeto tipo marca
+    private Marca getMarcaForm() {
+        Marca marca = new Marca();
+        marca.setId(Integer.valueOf(gui.txt_id.getText()));
+        marca.setDescripcion(gui.txt_descripcion.getText());
 
-        return empresa;
+        return marca;
     }
 
-    private void setEmpresaForm(Empresa empresa) {
-        gui.txt_id.setText(empresa.getId().toString());
-        gui.txt_ruc.setText(empresa.getRuc());
-        gui.txt_nombre.setText(empresa.getNombre());
-        gui.txt_direccion.setText(empresa.getDireccion());
-        gui.txt_telefono.setText(empresa.getTelefono());;
+    private void setMarcaForm(Marca marca) {
+        gui.txt_id.setText(String.valueOf(marca.getId()));
+        gui.txt_descripcion.setText(marca.getDescripcion());
     }
 
     private void limpiar() {
         gui.txt_id.setText("0");
-        gui.txt_ruc.setText("");
-        gui.txt_nombre.setText("");
-        gui.txt_direccion.setText("");
-        gui.txt_telefono.setText("");
+        gui.txt_descripcion.setText("");
     }
 
     public void listar() {
-        List<Empresa> lista = this.abm.listar();
+        List<Marca> lista = this.abm.listar();
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 
@@ -157,16 +148,13 @@ public class EmpresaController implements ActionListener {
     }
 
     private void habilitarCampos(Boolean h) {
-        gui.txt_ruc.setEnabled(h);
-        gui.txt_nombre.setEnabled(h);
-        gui.txt_direccion.setEnabled(h);
-        gui.txt_telefono.setEnabled(h);
+        gui.txt_descripcion.setEnabled(h);
     }
     
     private boolean validarDatos(){
         boolean vacio = false;
         
-        if(gui.txt_ruc.getText().isEmpty()){
+        if(gui.txt_descripcion.getText().isEmpty()){
             vacio = true;
         }
         return vacio;
