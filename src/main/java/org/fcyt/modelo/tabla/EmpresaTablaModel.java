@@ -16,7 +16,7 @@ public class EmpresaTablaModel extends AbstractTableModel{
     
     Class []  columnClass = new Class[]{Integer.class,String.class,String.class};
 
-    public String getColumnNames(int i) {
+    public String getColumnName(int i) {
         return columnNames[i];
     }
 

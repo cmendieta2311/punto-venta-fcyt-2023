@@ -16,13 +16,13 @@ public class MarcaTablaModel extends AbstractTableModel{
     
     Class []  columnClass = new Class[]{Integer.class,String.class,String.class};
 
-    public String getColumnNames(int i) {
+    public String getColumnName(int i) {
         return columnNames[i];
     }
 
-//    public void setColumnNames(String[] columnNames) {
-//        this.columnNames = columnNames;
-//    }
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+    }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {

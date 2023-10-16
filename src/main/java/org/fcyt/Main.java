@@ -1,13 +1,5 @@
 package org.fcyt;
-import org.fcyt.modelo.dao.EmpresaDaoImpl;
-import org.fcyt.controlador.EmpresaController;
-import org.fcyt.controlador.IvaController;
-import org.fcyt.controlador.MarcaController;
-import org.fcyt.modelo.dao.IvaDaoImpl;
-import org.fcyt.modelo.dao.MarcaDaoImpl;
-import org.fcyt.vista.GUIEmpresa;
-import org.fcyt.vista.GUIIva;
-import org.fcyt.vista.GUIMarca;
+import javax.swing.JFrame;
 import org.fcyt.vista.GUIVentanaPrincipal;
 
 /**
@@ -19,6 +11,9 @@ import org.fcyt.vista.GUIVentanaPrincipal;
 public class Main {
     public static void main(String[] args) {
         GUIVentanaPrincipal gui = new GUIVentanaPrincipal();
+//        La función setExtendedState en Java se utiliza para establecer el estado extendido de una ventana en una aplicación de interfaz gráfica de usuario (GUI).
+//        Esta función permite configurar el estado de una ventana, como maximizar, minimizar o restaurar, además de otros estados extendidos
+        gui.setExtendedState(JFrame.MAXIMIZED_BOTH);
         gui.setVisible(true);
         
        

@@ -85,6 +85,7 @@ public class GUIEmpresa extends javax.swing.JDialog {
         btn_Eliminar.setMnemonic('l');
         btn_Eliminar.setText("Eliminar");
 
+        txt_id.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txt_id.setEnabled(false);
 
         jLabel5.setText("Codigo");
