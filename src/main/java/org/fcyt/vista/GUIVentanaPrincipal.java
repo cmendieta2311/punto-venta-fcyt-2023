@@ -7,9 +7,11 @@ package org.fcyt.vista;
 import org.fcyt.controlador.EmpresaController;
 import org.fcyt.controlador.IvaController;
 import org.fcyt.controlador.MarcaController;
+import org.fcyt.controlador.UsuarioController;
 import org.fcyt.modelo.dao.EmpresaDaoImpl;
 import org.fcyt.modelo.dao.IvaDaoImpl;
 import org.fcyt.modelo.dao.MarcaDaoImpl;
+import org.fcyt.modelo.dao.UsuarioDaoImpl;
 
 /**
  *
@@ -43,6 +45,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -98,6 +101,14 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem6);
 
         jMenu2.add(jMenu5);
+
+        jMenuItem7.setText("Usuario");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
 
@@ -157,6 +168,15 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        UsuarioDaoImpl dao = new UsuarioDaoImpl();
+        GUIUsuario gui = new GUIUsuario(null, true);
+        UsuarioController ctrl = new UsuarioController(gui, dao);
+        
+        ctrl.mostrarVentana();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,6 +225,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
