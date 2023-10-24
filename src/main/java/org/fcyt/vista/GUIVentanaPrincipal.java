@@ -4,10 +4,12 @@
  */
 package org.fcyt.vista;
 
+import org.fcyt.controlador.ClienteController;
 import org.fcyt.controlador.EmpresaController;
 import org.fcyt.controlador.IvaController;
 import org.fcyt.controlador.MarcaController;
 import org.fcyt.controlador.UsuarioController;
+import org.fcyt.modelo.dao.ClienteDaoImpl;
 import org.fcyt.modelo.dao.EmpresaDaoImpl;
 import org.fcyt.modelo.dao.IvaDaoImpl;
 import org.fcyt.modelo.dao.MarcaDaoImpl;
@@ -46,8 +48,11 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -110,6 +115,14 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem7);
 
+        jMenuItem8.setText("Cliente");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Facturacion");
@@ -118,6 +131,13 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem4);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu6.setText("reportes");
+
+        jMenuItem9.setText("Listado de productos");
+        jMenu6.add(jMenuItem9);
+
+        jMenuBar1.add(jMenu6);
 
         jMenu4.setText("Ayuda");
         jMenuBar1.add(jMenu4);
@@ -177,6 +197,15 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         ctrl.mostrarVentana();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+          // TODO add your handling code here:
+        ClienteDaoImpl dao = new ClienteDaoImpl();
+        GUICliente gui = new GUICliente(null, true);
+        ClienteController ctrl = new ClienteController(gui, dao);
+         ctrl.mostrarVentana();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -218,6 +247,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -226,6 +256,8 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

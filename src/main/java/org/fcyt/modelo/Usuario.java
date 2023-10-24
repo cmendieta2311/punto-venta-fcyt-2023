@@ -13,6 +13,8 @@ public class Usuario {
     String usuario;
     String clave;
     Integer empresaId;
+    Boolean cambiarClave;
+    private static Usuario sessionUser;
 
     public Usuario() {
     }
@@ -50,6 +52,23 @@ public class Usuario {
     public void setEmpresaId(Integer empresaId) {
         this.empresaId = empresaId;
     }
+
+    public static Usuario getSessionUser() {
+        return sessionUser;
+    }
+
+    public static void setSessionUser(Usuario sessionUser) {
+        Usuario.sessionUser = sessionUser;
+    }
+
+    public Boolean getCambiarClave() {
+        return cambiarClave;
+    }
+
+    public void setCambiarClave(Boolean cambiarClave) {
+        this.cambiarClave = cambiarClave;
+    }
     
     
+     
 }

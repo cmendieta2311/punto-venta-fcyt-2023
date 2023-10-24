@@ -69,8 +69,10 @@ public class UsuarioDaoImpl implements dao<Usuario> {
         ArrayList<Usuario> listaUsuario = new ArrayList<>();
         try {
             //Preparar sentencia SQL
-            String sql = "SELECT * FROM usuario";
+            Usuario user = Usuario.getSessionUser();
+            String sql = "SELECT * FROM usuario where idempresa=?";
             sentencia = conec.prepareStatement(sql);
+             sentencia.setInt(1, user.getEmpresaId());
             //Ejecutar sentencia SQL
             ResultSet rs = sentencia.executeQuery();
             while (rs.next()) {
@@ -101,6 +103,12 @@ public class UsuarioDaoImpl implements dao<Usuario> {
             if(rs.getRow()>0){
                 System.out.print("usuario encontrado");
                 v_control = true;
+                Usuario user = new Usuario();
+                user.setId(rs.getInt("id"));
+                user.setUsuario(rs.getString("usuario"));
+                user.setEmpresaId(rs.getInt("idempresa"));
+                user.setCambiarClave(rs.getBoolean("cambiar_clave"));
+                Usuario.setSessionUser(user);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);

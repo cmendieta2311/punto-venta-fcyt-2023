@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import org.fcyt.modelo.Usuario;
@@ -15,6 +16,7 @@ import org.fcyt.modelo.dao.UsuarioDaoImpl;
 import org.fcyt.modelo.tabla.UsuarioTablaModel;
 import org.fcyt.vista.GUILogin;
 import org.fcyt.vista.GUILogin;
+import org.fcyt.vista.GUIVentanaPrincipal;
 
 /**
  *
@@ -49,6 +51,20 @@ Boolean v_ingresar = false;
             }
              v_ingresar = abm.login(getUsuarioForm());
              System.out.println(v_ingresar);
+             if(v_ingresar){
+                 //Este campo será compartido por todas las instancias de la clase,
+                 //Obs:Los métodos estáticos se pueden invocar utilizando el nombre de la clase y no requieren una instancia de la clase.
+                  Usuario user = Usuario.getSessionUser();
+                  
+                 GUIVentanaPrincipal guiVentanaPrincipal = new GUIVentanaPrincipal();
+                 guiVentanaPrincipal.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                 guiVentanaPrincipal.setTitle("Sistema de punto de venta/"+ user.getUsuario());
+                 guiVentanaPrincipal.setVisible(true);
+                 
+                 this.gui.dispose();
+                 
+                 
+             }
             
             limpiar();
         }
