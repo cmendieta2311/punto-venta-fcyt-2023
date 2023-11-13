@@ -59,7 +59,7 @@ public class MarcaDaoImpl implements dao<Marca>{
     }
 
     @Override
-    public List<Marca> listar() {
+    public List<Marca> listar(String textoBuscado) {
         ArrayList<Marca> listaMarca = new ArrayList<>();
         try {
             //Preparar sentencia SQL

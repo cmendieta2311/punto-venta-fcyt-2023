@@ -65,7 +65,7 @@ public class EmpresaDaoImpl implements dao<Empresa>{
     }
 
     @Override
-    public List<Empresa> listar() {
+    public List<Empresa> listar(String textoBuscado) {
         ArrayList<Empresa> listaEmpresa = new ArrayList<>();
         try {
             //Preparar sentencia SQL

@@ -4,16 +4,32 @@
  */
 package org.fcyt.vista;
 
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
 import org.fcyt.controlador.ClienteController;
 import org.fcyt.controlador.EmpresaController;
 import org.fcyt.controlador.IvaController;
 import org.fcyt.controlador.MarcaController;
+import org.fcyt.controlador.ProductoController;
 import org.fcyt.controlador.UsuarioController;
 import org.fcyt.modelo.dao.ClienteDaoImpl;
 import org.fcyt.modelo.dao.EmpresaDaoImpl;
 import org.fcyt.modelo.dao.IvaDaoImpl;
 import org.fcyt.modelo.dao.MarcaDaoImpl;
+import org.fcyt.modelo.dao.ProductoDaoImpl;
 import org.fcyt.modelo.dao.UsuarioDaoImpl;
+
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import org.fcyt.modelo.Conexion;
 
 /**
  *
@@ -21,11 +37,15 @@ import org.fcyt.modelo.dao.UsuarioDaoImpl;
  */
 public class GUIVentanaPrincipal extends javax.swing.JFrame {
 
+    Connection conec;
+
     /**
      * Creates new form GUIVentanaPrincipal
      */
     public GUIVentanaPrincipal() {
         initComponents();
+        Conexion conectar = new Conexion();
+        conec = conectar.conectarBD();
     }
 
     /**
@@ -53,6 +73,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -87,6 +108,11 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenu5.setText("Datos de producto");
 
         jMenuItem2.setText("Producto");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem2);
 
         jMenuItem5.setText("Marca");
@@ -137,6 +163,14 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         jMenuItem9.setText("Listado de productos");
         jMenu6.add(jMenuItem9);
 
+        jMenuItem10.setText("Listado de clientes");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
         jMenuBar1.add(jMenu6);
 
         jMenu4.setText("Ayuda");
@@ -163,7 +197,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         EmpresaDaoImpl dao = new EmpresaDaoImpl();
         GUIEmpresa gui = new GUIEmpresa(null, true);
         EmpresaController ctrl = new EmpresaController(gui, dao);
-        
+
         ctrl.mostrarVentana();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -193,18 +227,45 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
         UsuarioDaoImpl dao = new UsuarioDaoImpl();
         GUIUsuario gui = new GUIUsuario(null, true);
         UsuarioController ctrl = new UsuarioController(gui, dao);
-        
+
         ctrl.mostrarVentana();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
-          // TODO add your handling code here:
+        // TODO add your handling code here:
         ClienteDaoImpl dao = new ClienteDaoImpl();
         GUICliente gui = new GUICliente(null, true);
         ClienteController ctrl = new ClienteController(gui, dao);
-         ctrl.mostrarVentana();
+        ctrl.mostrarVentana();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        ProductoDaoImpl dao = new ProductoDaoImpl();
+        GUIProducto gui = new GUIProducto(null, true);
+        ProductoController ctrl = new ProductoController(gui, dao);
+        ctrl.mostrarVentana();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        try {
+            // TODO add your handling code here:
+            Map parameters = new HashMap();
+            parameters.put("TITULO", "listado de clientes");
+            //      parameters.put("FECHA", new java.util.Date());
+            JasperReport report = JasperCompileManager.compileReport(
+                    "/home/cmendieta/FCyT/Lenguaje de Programacion II/poo-vta-2023/src/main/java/org/fcyt/reporte/listado_cliente.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(report, parameters, conec);
+            // Exporta el informe a PDF
+//            JasperExportManager.exportReportToPdfFile(print,
+//                    "/home/cmendieta/Escritorio/reporte/listado_cliente.pdf");
+            //Para visualizar el pdf directamente desde java
+            JasperViewer.viewReport(print, false);
+        } catch (JRException ex) {
+            Logger.getLogger(GUIVentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,6 +311,7 @@ public class GUIVentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

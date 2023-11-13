@@ -8,44 +8,60 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import org.fcyt.modelo.Usuario;
-import org.fcyt.modelo.dao.UsuarioDaoImpl;
-import org.fcyt.modelo.tabla.UsuarioTablaModel;
-import org.fcyt.vista.GUIUsuario;
+import org.fcyt.modelo.Iva;
+import org.fcyt.modelo.Marca;
+import org.fcyt.modelo.Producto;
+import org.fcyt.modelo.dao.IvaDaoImpl;
+import org.fcyt.modelo.dao.MarcaDaoImpl;
+import org.fcyt.modelo.dao.ProductoDaoImpl;
+import org.fcyt.modelo.tabla.ProductoTablaModel;
+import org.fcyt.vista.GUIProducto;
 
 /**
  *
  * @author cmendieta
  */
-public class UsuarioController implements ActionListener {
+public class ProductoController implements ActionListener {
 
-    private GUIUsuario gui;
-    private UsuarioDaoImpl abm;
+    private GUIProducto gui;
+    private ProductoDaoImpl abm;
     private char operacion;
+    
+    private MarcaDaoImpl abmMarca;
+    private IvaDaoImpl abmIva;
 
-    UsuarioTablaModel modelo = new UsuarioTablaModel();
+    ProductoTablaModel modelo = new ProductoTablaModel();
 
-    public UsuarioController(GUIUsuario gui, UsuarioDaoImpl abm) {
+    public ProductoController(GUIProducto gui, ProductoDaoImpl abm) {
         this.gui = gui;
         this.abm = abm;
+        
+        abmMarca = new MarcaDaoImpl();
+        abmIva = new IvaDaoImpl();
 
         this.gui.btnGuardar.addActionListener((ActionListener) this);
         this.gui.btn_Nuevo.addActionListener(this);
         this.gui.btnCancelar.addActionListener(this);
         this.gui.btn_Editar.addActionListener(this);
         this.gui.btn_Eliminar.addActionListener(this);
+        this.gui.txt_buscar.addActionListener(this);
 
-        this.listar();
+        this.listar("");
+        
+        llenarComboMarca(gui.cboMarca);
+        llenarComboIva(gui.cboIva);
 
         gui.tabla.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JTable tabla = (JTable) evt.getSource();
                 int row = tabla.rowAtPoint(evt.getPoint());
-                UsuarioTablaModel model = (UsuarioTablaModel) tabla.getModel();
+                ProductoTablaModel model = (ProductoTablaModel) tabla.getModel();
 
-                setUsuarioForm(model.getEntityByRow(row));
+                setProductoForm(model.getEntityByRow(row));
 
             }
         });
@@ -56,11 +72,13 @@ public class UsuarioController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Hola Class");
+        if(e.getSource() == gui.txt_buscar){
+            this.listar(gui.txt_buscar.getText());
+        }
         if (e.getSource() == gui.btn_Nuevo) {
             operacion = 'N';
             System.out.println("Soy el boton nuevo");
             habilitarCampos(true);
-            gui.txt_descripcion.requestFocus();
             limpiar();
         }
 
@@ -76,7 +94,7 @@ public class UsuarioController implements ActionListener {
               int ok =  JOptionPane.showConfirmDialog(gui, "Realmente desea eliminar el registro?","Confirmar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
               if(ok == 0){
                 abm.eliminar(modelo.getEntityByRow(fila));
-              listar();  
+              listar("");  
               }
              
           }else{
@@ -92,15 +110,15 @@ public class UsuarioController implements ActionListener {
             }
             switch (operacion) {
                 case 'N':
-                    abm.insertar(getUsuarioForm());
+                    abm.insertar(getProductoForm());
                     break;
                 case 'E':
-                    abm.actualizar(getUsuarioForm());
+                    abm.actualizar(getProductoForm());
                     break;
             }
             
             limpiar();
-            listar();
+            listar("");
         }
 
         if (e.getSource() == gui.btnCancelar) {
@@ -113,23 +131,26 @@ public class UsuarioController implements ActionListener {
     // Funcion encargado de mostrar la ventana
     public void mostrarVentana() {
         gui.setLocationRelativeTo(gui);
+        gui.setTitle("Producto");
         gui.setVisible(true);
     }
 
-    //Funcion encargado de recuperar los valos de los textfield en un objeto tipo usuario
-    private Usuario getUsuarioForm() {
-        Usuario usuario = new Usuario();
-        usuario.setId(Integer.valueOf(gui.txt_id.getText()));
-        usuario.setUsuario(gui.txt_descripcion.getText());
-        usuario.setClave("12345");
-        usuario.setEmpresaId(23); //Cambiar esta linea
+    //Funcion encargado de recuperar los valos de los textfield en un objeto tipo producto
+    private Producto getProductoForm() {
+        Producto producto = new Producto();
+        producto.setId(Integer.valueOf(gui.txt_id.getText()));
+        producto.setDescripcion(gui.txt_descripcion.getText());
 
-        return usuario;
+        return producto;
     }
 
-    private void setUsuarioForm(Usuario usuario) {
-        gui.txt_id.setText(usuario.getId().toString());
-        gui.txt_descripcion.setText(usuario.getUsuario());
+    private void setProductoForm(Producto producto) {
+        gui.txt_id.setText(String.valueOf(producto.getId()));
+        gui.txt_descripcion.setText(producto.getDescripcion());
+        gui.txt_precio_compra.setText(String.valueOf(producto.getPrecioCompra()));
+        gui.txt_precio_vta.setText(String.valueOf(producto.getPrecioVenta()));
+        gui.cboMarca.setSelectedItem(producto.getMarca());
+        gui.cboIva.setSelectedItem(producto.getIva());
     }
 
     private void limpiar() {
@@ -137,8 +158,8 @@ public class UsuarioController implements ActionListener {
         gui.txt_descripcion.setText("");
     }
 
-    public void listar() {
-        List<Usuario> lista = this.abm.listar("");
+    public void listar(String valorBuscado) {
+        List<Producto> lista = this.abm.listar(valorBuscado);
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 
@@ -160,6 +181,28 @@ public class UsuarioController implements ActionListener {
             vacio = true;
         }
         return vacio;
+    }
+    
+    private void llenarComboMarca(JComboBox cbo){
+        DefaultComboBoxModel<Marca> model = new DefaultComboBoxModel();
+        List<Marca> lista = abmMarca.listar("");
+        for(int i=0; i < lista.size(); i++){
+            Marca producto =  lista.get(i);
+            model.addElement(producto);
+        }
+        cbo.setModel(model);
+        
+    }
+    
+      private void llenarComboIva(JComboBox cbo){
+        DefaultComboBoxModel<Iva> model = new DefaultComboBoxModel();
+        List<Iva> lista = abmIva.listar("");
+        for(int i=0; i < lista.size(); i++){
+            Iva iva =  lista.get(i);
+            model.addElement(iva);
+        }
+        cbo.setModel(model);
+        
     }
 
 }

@@ -148,7 +148,7 @@ public class ClienteController implements ActionListener {
     }
 
     public void listar() {
-        List<Cliente> lista = this.abm.listar();
+        List<Cliente> lista = this.abm.listar("");
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 

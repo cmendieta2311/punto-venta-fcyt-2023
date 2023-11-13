@@ -65,7 +65,7 @@ public class UsuarioDaoImpl implements dao<Usuario> {
     }
 
     @Override
-    public List<Usuario> listar() {
+    public List<Usuario> listar(String textoBuscado) {
         ArrayList<Usuario> listaUsuario = new ArrayList<>();
         try {
             //Preparar sentencia SQL

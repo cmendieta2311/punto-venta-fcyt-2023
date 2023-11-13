@@ -134,7 +134,7 @@ public class IvaController implements ActionListener {
     }
 
     public void listar() {
-        List<Iva> lista = this.abm.listar();
+        List<Iva> lista = this.abm.listar("");
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 

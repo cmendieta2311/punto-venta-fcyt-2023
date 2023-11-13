@@ -136,7 +136,7 @@ public class MarcaController implements ActionListener {
     }
 
     public void listar() {
-        List<Marca> lista = this.abm.listar();
+        List<Marca> lista = this.abm.listar("");
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 

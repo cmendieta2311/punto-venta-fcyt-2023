@@ -59,7 +59,7 @@ public class IvaDaoImpl implements dao<Iva>{
     }
 
     @Override
-    public List<Iva> listar() {
+    public List<Iva> listar(String textoBuscado) {
         ArrayList<Iva> listaIva = new ArrayList<>();
         try {
             //Preparar sentencia SQL

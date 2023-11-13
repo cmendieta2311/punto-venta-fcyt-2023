@@ -67,7 +67,7 @@ public class ClienteDaoImpl implements dao<Cliente>{
     }
 
     @Override
-    public List<Cliente> listar() {
+    public List<Cliente> listar(String textoBuscado) {
         ArrayList<Cliente> listaCliente = new ArrayList<>();
         try {
             //Preparar sentencia SQL

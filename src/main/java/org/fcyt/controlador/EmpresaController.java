@@ -145,7 +145,7 @@ public class EmpresaController implements ActionListener {
     }
 
     public void listar() {
-        List<Empresa> lista = this.abm.listar();
+        List<Empresa> lista = this.abm.listar("");
         modelo.setLista(lista);
         llenarTabla(gui.tabla);
 
